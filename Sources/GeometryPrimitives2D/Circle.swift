@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import simd
 
 public struct Circle  {
     
@@ -34,7 +34,6 @@ public struct Circle  {
 }
 
 extension Circle {
-    
     public var circumferance:Double {
         return 2 * .pi * radius
     }
@@ -43,13 +42,76 @@ extension Circle {
         return .pi * radius * radius
     }
     
+    public func invert( p:SIMD2<Double>) -> SIMD2<Double>{
+         ((p - center) * radius * radius)/(length(p - center) * length(p - center) ) + center
+    }
+    
+    public func contains( p:SIMD2<Double>) -> Bool {
+       distance(center,p) < radius;
+    }
 }
 
 
 extension Circle {
     public func intersect(with c:Circle) -> [SIMD2<Double>] {
-        return intersectCircles(self,c)
+        intersectCircles(self,c)
     }
+    
+    public func intersect(with l:Line) -> [SIMD2<Double>] {
+        intersectLineCircle(self,l)
+    }
+    
+    public func tangent(at θ:Double) -> Line {
+        let r = SIMD2(x: radius * cos(θ),y: radius * sin(θ))
+        let p = center + r
+        
+        let n = r.orthogonal
+        
+        return Line(origin: p, direction: n)
+    }
+    
+    
+    public func tangent(atCirclePoint p:SIMD2<Double>) -> Line {
+        tangent(at:(p - center).angle)
+    }
+    
+}
+
+
+public func intersectLineCircle(_ c:Circle, _ l:Line) -> [SIMD2<Double>] {
+//https://mathworld.wolfram.com/Circle-LineIntersection.html#:~:text=In%20geometry%2C%20a%20line%20meeting,secant%20line%20(Rhoad%20et%20al.
+    let d = l.direction
+    let p1 = l.origin - c.center
+    let p2 = l.origin - c.center + d
+    
+    let D = p1.x * p2.y - p2.x * p1.y
+    
+    let dr = l.direction.length
+    let r = c.radius
+    let Δ = r * r * dr * dr - D * D
+    
+    if Δ < 0 {
+        return []
+    }
+    
+    let s:Double = d.y < 0 ? -1 : 1
+    
+    let x1 = D * d.y + s * d.x * Δ
+    let y1 = -D * d.x + abs(d.y) * Δ
+    
+    
+    let q1 = SIMD2(x: x1, y: y1) + c.center
+    
+    if Δ == 0 {
+        return [q1]
+    }
+    
+    let x2 = D * d.y - s * d.x * Δ
+    let y2 = -D * d.x - abs(d.y) * Δ
+    
+    let q2 = SIMD2(x: x2, y: y2) + c.center
+    
+    return [q1,q2]
 }
 
 public func intersectCircles(_ c1:Circle, _ c2:Circle) -> [SIMD2<Double>] {

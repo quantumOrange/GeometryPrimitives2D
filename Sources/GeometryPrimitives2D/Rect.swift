@@ -19,10 +19,20 @@ struct Rect {
         self.height = height
     }
     
+    init(origin:SIMD2<Double>, width:Double,height:Double) {
+        self.center =  origin + 0.5 * SIMD2<Double>(width,height)
+        self.width = width
+        self.height = height
+    }
+    
 }
 
 extension Rect {
     var area:Double {
         return width * height
+    }
+    
+    var origin:SIMD2<Double> {
+        center - 0.5 * SIMD2<Double>(width,height)
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 
-func cross<A:FloatingPoint>(_ p:SIMD2<A>,_ q:SIMD2<A>) -> A {
+func cross2d<A:FloatingPoint>(_ p:SIMD2<A>,_ q:SIMD2<A>) -> A {
     //CHECK SIGN!
     return p.x * q.y - p.y * q.x
 }
@@ -22,6 +22,11 @@ public func •(_ left: SIMD2<Double>, right:SIMD2<Double>) -> Double {
 
 
 public extension SIMD2 where Scalar == Double {
+    
+    init(r:Double,theta θ:Double) {
+        self.init(r * cos(θ),r * sin(θ))
+    }
+    
     static var zero:SIMD2<Double> {
         return SIMD2<Double>(0.0,0.0)
     }
@@ -35,6 +40,7 @@ public extension SIMD2 where Scalar == Double {
         let p = self
         return p.x * q.x + p.y * q.y
     }
+    
     /*
     func cross(_ q:SIMD2<Double>) -> Double {
         GeometryPrimitives2D.cross(self,q)
@@ -90,3 +96,5 @@ func relativeAngle(_ u:SIMD2<Double>, _ v:SIMD2<Double>) -> Double {
     
     return theta
 }
+
+

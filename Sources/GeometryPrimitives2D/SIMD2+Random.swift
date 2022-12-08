@@ -8,7 +8,7 @@
 import Foundation
 
 extension SIMD2 where Scalar == Double {
-    public static func gaussian() ->SIMD2<Scalar> {
+    public static func gaussian() -> SIMD2<Scalar> {
         //Box-Muller transform
         //https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
         let u = Double.random(in: 0..<1)

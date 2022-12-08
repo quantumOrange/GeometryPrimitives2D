@@ -43,10 +43,11 @@ extension LineSegment {
         let p = self
         let q = line
         
-        let denominator = cross(p.vector,q.vector)
+        let denominator = cross2d(p.vector,q.vector)
         if denominator  != 0 {
-            let t = cross(q.start - p.start,q.vector)/denominator
-            let u = cross(q.start - p.start,p.vector)/denominator
+            
+            let t = cross2d(q.start - p.start,q.vector)/denominator
+            let u = cross2d(q.start - p.start,p.vector)/denominator
             if ((t > 0.0 && t < 1.0) &&  (u > 0.0 && u < 1.0)) {
                 intersectionPoint = self.evaluate(at:t)
             }

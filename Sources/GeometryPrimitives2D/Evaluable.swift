@@ -47,6 +47,7 @@ extension Circle: Evaluable {
     var  evaluableRange:Range<Double> {
         return 0..<2*Double.pi
     }
+    
     public func evaluate(at t:Double) -> SIMD2<Double> {
         return center + radius*SIMD2<Double>(x:cos(t),y:sin(t))
     }
