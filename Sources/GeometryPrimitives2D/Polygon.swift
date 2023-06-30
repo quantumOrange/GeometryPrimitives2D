@@ -9,7 +9,7 @@
 import Foundation
 
 public struct Polygon: NGon {
-    
+
     public let verticies:[SIMD2<Double>]
     
     public var edges:[LineSegment] {
@@ -66,7 +66,7 @@ public struct Polygon: NGon {
     }
     
     public func triangulate() -> [Triangle] {
-       
+ 
         let (triangle, polygon)  = cutEar()
         
         if let triangle = triangle {
