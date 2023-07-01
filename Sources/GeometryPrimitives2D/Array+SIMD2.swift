@@ -15,3 +15,10 @@ extension Array where Element==SIMD2<Double> {
         //return SIMD2<Double>(x: x, y: y)
     }
 }
+
+extension Array {
+    public func adjacentPairs() -> Zip2Sequence<[Element], Array<Element>.SubSequence> {
+        zip(self,self.dropFirst())
+    }
+    
+}

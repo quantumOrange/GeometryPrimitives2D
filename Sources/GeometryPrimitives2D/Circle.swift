@@ -19,6 +19,11 @@ public struct Circle  {
         radius = r
     }
     
+    public init(center c:SIMD2<Double>, point:SIMD2<Double>){
+        self.center = c
+        self.radius = (point - center).length
+    }
+    
     public init?(triangle:Triangle) {
         guard let circumcenter = triangle.circumcenter else { return nil }
         let v = circumcenter - triangle.a

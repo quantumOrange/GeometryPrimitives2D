@@ -8,12 +8,16 @@
 
 import Foundation
 
+
 public struct Polygon: NGon {
 
     public let verticies:[SIMD2<Double>]
     
     public var edges:[LineSegment] {
-        return zip(verticies.dropLast(),verticies.dropFirst()).map(LineSegment.init)
+        guard let first = verticies.first else { return [] }
+        return (verticies + [first]).adjacentPairs().map(LineSegment.init)
+            //return zip(verticies.dropLast(),verticies.dropFirst()))
+        //return zip(verticies.dropLast(),verticies.dropFirst()).map(LineSegment.init)
     }
     
     public init(verticies:[SIMD2<Double>]) {
@@ -81,6 +85,38 @@ public struct Polygon: NGon {
         
     }
 
+}
+
+extension Polygon {
+    public static func regular(origin:SIMD2<Double>,vertex:SIMD2<Double>, n:Int) -> Polygon{
+        let radius = origin.distanceTo(vertex)
+        
+        let v = vertex - origin
+        let angle = 2 * Double.pi / Double(n)
+        let theta0 = v.angle
+        
+        let vertices = (0..<n).map {
+            origin + SIMD2<Double>(r:radius,theta:theta0 + Double($0) * angle)
+        }
+       
+        return Polygon(verticies: vertices)
+    }
+    
+    public static func star(origin:SIMD2<Double>,vertex:SIMD2<Double>, n:Int) -> Polygon{
+        let radius = origin.distanceTo(vertex)
+        
+        let v = vertex - origin
+        let angle =  Double.pi / Double(n)
+        let theta0 = v.angle
+        
+        let vertices = (0..<2*n).map {
+            let r = $0.isMultiple(of: 2) ? radius : radius / 2
+            return origin + SIMD2<Double>(r:r,theta:theta0 + Double($0) * angle)
+        }
+       
+        return Polygon(verticies: vertices)
+    }
+    
 }
 
 protocol NGon:Equatable {

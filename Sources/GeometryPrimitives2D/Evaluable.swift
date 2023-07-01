@@ -37,6 +37,17 @@ extension Evaluable {
         
         
     }
+    
+    public func createPointsAndAngles(_ n:Int) -> [(SIMD2<Double>,Double)] {
+       
+        let dx = ( maximumEvaluable - mininumEvaluable ) / Double(n)
+        
+        return (0..<n)
+                    .map { Double($0) * dx }
+                    .map { (evaluate(at: $0) , $0 )}
+        
+        
+    }
 }
 //Ambiguous reference to member 'min(by:)'
 
