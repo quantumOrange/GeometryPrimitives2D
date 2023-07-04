@@ -66,7 +66,7 @@ public struct Arc  {
 
 extension Arc : Evaluable  {
     public func evaluate(at t: Double) -> SIMD2<Double> {
-        let theta = (1 - t) * startAngle  + t * endAngle
+        let theta =  startAngle  + t * ( endAngle - startAngle)
         return center + SIMD2(r: radius, theta: theta)
     }
     
