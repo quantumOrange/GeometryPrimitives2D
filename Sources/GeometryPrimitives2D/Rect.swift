@@ -25,6 +25,23 @@ struct Rect {
         self.height = height
     }
     
+    var a:SIMD2<Double> {
+        center + 0.5 * [ -width, height]
+    }
+    
+    var b:SIMD2<Double> {
+        center + 0.5 * [ -width, -height]
+    }
+    
+    var c:SIMD2<Double> {
+        center + 0.5 * [ width, height]
+    }
+    
+    var d:SIMD2<Double> {
+        center + 0.5 * [ width, -height]
+    }
+    
+    
 }
 
 extension Rect {
@@ -34,5 +51,15 @@ extension Rect {
     
     var origin:SIMD2<Double> {
         center - 0.5 * SIMD2<Double>(width,height)
+    }
+    
+    var quad:Quad {
+        Quad(a: a, b: b, c: c, d: d)
+    }
+}
+
+extension Rect:Triangulable {
+    func triangulate() -> [Triangle] {
+        [Triangle(A: a, B: b, C: c),Triangle(A: b, B: c, C: d)]
     }
 }

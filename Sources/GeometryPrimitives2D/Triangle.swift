@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Triangle {
+public struct Triangle :  Triangulable {
     
     public let a:SIMD2<Double>
     public var b:SIMD2<Double>
@@ -31,7 +31,6 @@ public struct Triangle {
         return ab.length + bc.length + ca.length
     }
     
-    //Edges
     public var ab:LineSegment {
         return LineSegment(start: a, end: b)
     }
@@ -44,11 +43,15 @@ public struct Triangle {
         return LineSegment(start: c, end: a)
     }
     
+    public func triangulate() -> [Triangle] {
+        [self]
+    }
+    
 }
 
 extension Triangle {
     
-    public func contains(point p:SIMD2<Double>) ->Bool {
+    public func contains(point p:SIMD2<Double>) -> Bool {
         //Compute vectors
         let v0 = c - a
         let v1 = b - a
@@ -85,5 +88,22 @@ extension Triangle:CustomStringConvertible  {
     public var description: String { get { return "Triangle A:\(a) B:\(b) C:(\(c) " } }
 }
 
+extension Triangle  {
+    
+    public static func isosceles(baseCenter:SIMD2<Double>,vertex:SIMD2<Double>, relativeBaseWidth:Double) -> Triangle {
+        let baseWidth = relativeBaseWidth * (vertex - baseCenter).length
+        return Triangle.isosceles(baseCenter: baseCenter, vertex: vertex, baseWidth: baseWidth)
+        
+    }
+    
+    public static func isosceles(baseCenter:SIMD2<Double>,vertex:SIMD2<Double>, baseWidth:Double) -> Triangle {
+        let v = (vertex - baseCenter).normalized
+        let n = v.orthogonal
+        let dz = 0.5 * baseWidth * n
+
+        return Triangle(A: baseCenter + dz, B: baseCenter - dz, C: vertex)
+    }
+    
+}
 
 

@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct Polygon: NGon {
+public struct Polygon: NGon, Triangulable {
 
     public let verticies:[SIMD2<Double>]
     
@@ -82,7 +82,6 @@ public struct Polygon: NGon {
         else {
             return []
         }
-        
     }
 
 }
@@ -102,7 +101,7 @@ extension Polygon {
         return Polygon(verticies: vertices)
     }
     
-    public static func star(origin:SIMD2<Double>,vertex:SIMD2<Double>, n:Int) -> Polygon{
+    public static func star(origin:SIMD2<Double>,vertex:SIMD2<Double>, n:Int, innerRadiusRatio:Double) -> Polygon{
         let radius = origin.distanceTo(vertex)
         
         let v = vertex - origin
@@ -110,7 +109,7 @@ extension Polygon {
         let theta0 = v.angle
         
         let vertices = (0..<2*n).map {
-            let r = $0.isMultiple(of: 2) ? radius : radius / 2
+            let r = $0.isMultiple(of: 2) ? radius : radius * innerRadiusRatio
             return origin + SIMD2<Double>(r:r,theta:theta0 + Double($0) * angle)
         }
        
@@ -158,11 +157,11 @@ extension NGon {
 }
 
 extension Triangle:NGon {
-    var verticies: [SIMD2<Double>] {
+    public var verticies: [SIMD2<Double>] {
         return [a,b,c]
     }
     
-    var edges: [LineSegment] {
+    public var edges: [LineSegment] {
          return [ ab, bc, ca]
     }
 }

@@ -75,3 +75,14 @@ extension Arc : Evaluable  {
     }
     
 }
+
+extension Arc:Triangulable {
+    public func triangulate() -> [Triangle] {
+        let arcAngle =  endAngle - startAngle
+        let n = Int(arcAngle * 50.0)
+        
+        return createPoints(n).adjacentPairs().map {
+            Triangle(A: center, B: $0.0, C: $0.1)
+        }
+    }
+}

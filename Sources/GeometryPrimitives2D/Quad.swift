@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Quad {
+public struct Quad : Triangulable {
     
     public let a:SIMD2<Double>
     public let b:SIMD2<Double>
@@ -23,7 +23,6 @@ public struct Quad {
         self.d = d
     }
     
-    //Edges
     public var ab:LineSegment {
         return LineSegment(start: a, end: b)
     }
@@ -93,13 +92,7 @@ public struct Quad {
         }
     }
     
-    public var area:Double {
-        let (t1,t2) = triangulate()
-        
-        return t1.area + t2.area
-    }
-    
-    func triangulate() -> (Triangle,Triangle) {
+    public func triangulate() -> [Triangle] {
         let lineAC = LineSegment(start: a,end: c)
         let lineDB = LineSegment(start: d,end: b)
         
@@ -107,31 +100,21 @@ public struct Quad {
         
         if let _ = rayAC.intersect(with: lineDB){
             //both trinagles share commone verticies A and C
-            return (Triangle(A: a, B: b, C: c),Triangle(A: a, B: c, C: d))
+            return [Triangle(A: a, B: b, C: c),Triangle(A: a, B: c, C: d)]
         }
         else {
             //both trinagles share common verticies B and D
-            return (Triangle(A: a, B: b, C: d),Triangle(A: b, B: c, C: d))
+            return [Triangle(A: a, B: b, C: d),Triangle(A: b, B: c, C: d)]
         }
     }
     
-    func containsPoint(_ p:SIMD2<Double>) -> Bool {
-        
-        let (triangle1,triangle2) = triangulate()
-        
-        
-        
-        return triangle1.contains(point: p) || triangle2.contains(point: p)
-       
-    }
-
     public var isValid:Bool {
         return a.isValid && b.isValid && c.isValid && d.isValid
     }
-    
 }
-
 
 extension Quad:CustomStringConvertible {
     public var description: String { return "Quad A:\(a) B:\(b) C:(\(c) D:\(d)  centroid:\(centroid)" }
 }
+
+
