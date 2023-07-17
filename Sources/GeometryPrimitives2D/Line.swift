@@ -26,6 +26,28 @@ public struct Line {
 
 extension Line {
     
+    public func lineSegmentIntersecting(with rect:Rect) -> LineSegment? {
+        let points = intersect(with: rect)
+        guard let first = points.first,let last = points.last else { return nil }
+        return LineSegment(start: first, end: last)
+    }
+    
+    public func lineSegmentIntersecting(with circle:Circle) -> LineSegment? {
+        let points = intersect(with: circle)
+        guard let first = points.first,let last = points.last else { return nil }
+        return LineSegment(start: first, end: last)
+    }
+    
+    public func intersect(with circle:Circle) -> [SIMD2<Double>] {
+        intersectLineCircle(circle,self)
+    }
+    
+    public func intersect(with ngon:any NGon) -> [SIMD2<Double>] {
+        ngon.edges.compactMap{ edge in
+            intersect(with: edge)
+        }
+    }
+    
     public func intersect(with line:Line) -> SIMD2<Double>? {
         
         var intersectionPoint:SIMD2<Double>?

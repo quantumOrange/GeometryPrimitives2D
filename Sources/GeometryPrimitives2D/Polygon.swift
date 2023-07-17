@@ -118,7 +118,7 @@ extension Polygon {
     
 }
 
-protocol NGon:Equatable {
+public protocol NGon:Equatable {
     
     var verticies:[SIMD2<Double>] {get}
     
@@ -167,11 +167,21 @@ extension Triangle:NGon {
 }
 
 extension Quad:NGon {
-    var verticies: [SIMD2<Double>] {
+    public var verticies: [SIMD2<Double>] {
          return [a,b,c,d]
     }
     
-    var edges: [LineSegment] {
+    public var edges: [LineSegment] {
         return [ab,bc,cd,da]
+    }
+}
+
+extension Rect:NGon {
+    public var verticies: [SIMD2<Double>] {
+         return [topLeft,topLeft,bottomRight,bottomLeft]
+    }
+    
+    public var edges: [LineSegment] {
+        return [top,right,bottom,left]
     }
 }

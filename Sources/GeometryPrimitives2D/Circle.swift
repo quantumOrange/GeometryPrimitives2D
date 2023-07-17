@@ -43,6 +43,10 @@ extension Circle {
         return 2 * .pi * radius
     }
     
+    public var diameter:Double {
+        return 2  * radius
+    }
+    
     public var area:Double {
         return .pi * radius * radius
     }
@@ -54,6 +58,8 @@ extension Circle {
     public func contains( p:SIMD2<Double>) -> Bool {
        distance(center,p) < radius;
     }
+    
+    
 }
 
 

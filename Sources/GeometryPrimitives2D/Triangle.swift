@@ -40,6 +40,7 @@ public struct Triangle :  Triangulable {
     }
     
     public var ca:LineSegment {
+        
         return LineSegment(start: c, end: a)
     }
     

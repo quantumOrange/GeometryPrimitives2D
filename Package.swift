@@ -10,6 +10,10 @@ let package = Package(
         .library(
             name: "GeometryPrimitives2D",
             targets: ["GeometryPrimitives2D"]),
+        .library(
+            name: "GeometryUI",
+            targets: ["GeometryUI"]),
+        
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -20,7 +24,13 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "GeometryPrimitives2D",
-            dependencies: []),
+            dependencies: [])
+        
+        ,
+        .target(
+            name: "GeometryUI",
+            dependencies: ["GeometryPrimitives2D"]),
+        
         .testTarget(
             name: "GeometryPrimitives2DTests",
             dependencies: ["GeometryPrimitives2D"]),

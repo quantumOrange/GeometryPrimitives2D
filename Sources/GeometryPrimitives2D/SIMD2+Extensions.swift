@@ -97,4 +97,7 @@ func relativeAngle(_ u:SIMD2<Double>, _ v:SIMD2<Double>) -> Double {
     return theta
 }
 
+public func midpoint(_ p:SIMD2<Double>,_ q:SIMD2<Double>) -> SIMD2<Double>{
+    0.5 * ( p + q )
+}
 
