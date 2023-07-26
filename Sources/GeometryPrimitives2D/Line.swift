@@ -26,6 +26,17 @@ public struct Line {
 
 extension Line {
     
+    public func isLeft(p:SIMD2<Double>) -> Bool {
+        //𝑑=(𝑥−𝑥1)(𝑦2−𝑦1)−(𝑦−𝑦1)(𝑥2−𝑥1)
+        // check left right
+        let u1 = origin
+        let u2 = origin + direction
+        
+        let d = (p.x - u1.x) * ( u2.y - u1.y) - (p.y - u1.y) * ( u2.x - u1.x)
+        
+        return d > 0
+    }
+    
     public func lineSegmentIntersecting(with rect:Rect) -> LineSegment? {
         let points = intersect(with: rect)
         guard let first = points.first,let last = points.last else { return nil }
@@ -109,4 +120,8 @@ extension Line {
         return length(a + q - p)
         
     }
+}
+
+extension Line : Codable {
+    
 }

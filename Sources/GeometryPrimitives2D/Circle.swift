@@ -38,6 +38,10 @@ public struct Circle  {
     
 }
 
+extension Circle : Codable {
+    
+}
+
 extension Circle {
     public var circumferance:Double {
         return 2 * .pi * radius
