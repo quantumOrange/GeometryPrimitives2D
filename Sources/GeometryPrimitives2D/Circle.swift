@@ -164,7 +164,7 @@ public func intersectCircles(_ c1:Circle, _ c2:Circle) -> [SIMD2<Double>] {
 
 extension Circle:Triangulable {
     public func triangulate() -> [Triangle] {
-        return createPoints(360).adjacentPairs().map {
+        return createPoints(360).cyclicAdjacentPairs().map {
             Triangle(A: center, B: $0.0, C: $0.1)
         }
     }

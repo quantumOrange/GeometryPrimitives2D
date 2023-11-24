@@ -21,4 +21,8 @@ extension Array {
         zip(self,self.dropFirst())
     }
     
+    public func cyclicAdjacentPairs() -> Zip2Sequence<[Element], [Element]> {
+        guard let last = self.last else {return zip(self,self)}
+        return zip([last] + self,self)
+    }
 }
