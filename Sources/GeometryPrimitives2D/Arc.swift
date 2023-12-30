@@ -53,7 +53,7 @@ public struct Arc  {
     }
     
     public func createPoints(_ n:Int) -> [SIMD2<Double>] {
-       
+        guard n > 0 else { return [] }
         let dx = 1 / Double(n)
         
         return (0..<n)
