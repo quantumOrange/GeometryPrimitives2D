@@ -53,7 +53,10 @@ public struct Arc  {
     }
     
     public func createPoints(_ n:Int) -> [SIMD2<Double>] {
-        guard n > 0 else { return [] }
+        guard n > 0 else {
+            print(" N <= 0 , n== \(n)")
+            return [] }
+        
         let dx = 1 / Double(n)
         
         return (0..<n)
@@ -79,7 +82,7 @@ extension Arc : Evaluable  {
 extension Arc:Triangulable {
     public func triangulate() -> [Triangle] {
         let arcAngle =  endAngle - startAngle
-        let n = Int(arcAngle * 50.0)
+        let n = Int(abs(arcAngle) * 50.0)
         
         return createPoints(n).adjacentPairs().map {
             Triangle(A: center, B: $0.0, C: $0.1)
